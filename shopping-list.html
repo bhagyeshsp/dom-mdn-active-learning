@@ -1,75 +1,112 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopping list example</title>
-    <style>
-      li {
-        margin-bottom: 10px;
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping list example</title>
+  <style>
+    li {
+      margin-bottom: 10px;
+    }
+
+    li button {
+      font-size: 12px;
+      margin-left: 20px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>My shopping list</h1>
+  <p> <a
+      href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents#active_learning_a_dynamic_shopping_list">From
+      MDN Active Learning</a> </p>
+
+  <div>
+    <label for="item">Enter a new item:</label>
+    <input type="text" name="item" id="item">
+    <button id="btnAddition">Add item</button>
+  </div>
+
+  <ul id="listContainer">
+
+  </ul>
+
+  <script>
+    // when Add Item button is pressed
+    // get the value of the input field
+    // store the value in a variable
+    // create <li> element inside <ul>
+    // create an inline delete <button> element with <li>
+    // populate the value of <li> element from the variable
+    // set the input element blank
+
+    // when delete <button> is clicked
+    // eventListener initiates a deleteItem function
+    // deleteItem function takes the id of the current <li> item which is same as the delete <button> being pressed
+    // it removes the <li> child from the <ul>
+
+    // the input element is brought into focus()
+
+    const inputElement = document.querySelector("#item");
+    const btnAdd = document.querySelector("#btnAddition");
+    const ulElement = document.querySelector("#listContainer");
+    let idCounter = 0;
+
+
+    btnAdd.addEventListener("click", () => addItem());
+
+    function addItem() {
+      const liItem = document.createElement("li");
+      const spanElement = document.createElement("span");
+      const btnDelete = document.createElement("button");
+
+      liItem.id = idCounter++;
+      liItem.textContent = inputElement.value;
+
+      btnDelete.id = liItem.id;
+      btnDelete.textContent = "Delete";
+      btnDelete.className = "delete";
+      btnDelete.addEventListener("click",removeItem);
+      spanElement.appendChild(btnDelete);
+      liItem.appendChild(spanElement);
+      ulElement.appendChild(liItem);
+
+      inputElement.value = "";
+      inputElement.focus();
+    }
+
+    // Learned this code after implementing my own
+    function removeItem(event) {
+      const removalItem = event.target.closest("li");
+      if (removalItem) {
+        ulElement.removeChild(removalItem);
+        inputElement.focus();
+      } else {
+        console.log("No nearby list item parent found.")
       }
+    }
 
-      li button {
-        font-size: 12px;
-        margin-left: 20px;
-        color: #666;
-      }
-    </style>
-  </head>
-  <body>
-
-    <h1>My shopping list</h1>
-    <p> <a href="https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Client-side_web_APIs/Manipulating_documents#active_learning_a_dynamic_shopping_list">From MDN Active Learning</a> </p>
-
-    <div>
-      <label for="item">Enter a new item:</label>
-      <input type="text" name="item" id="item">
-      <button id="btnAddition">Add item</button>
-    </div>
-
-    <ul id="listContainer">
-
-    </ul>
-
-    <script>
-      // when Add Item button is pressed
-        // get the value of the input field
-        // store the value in a variable
-        // create <li> element inside <ul>
-        // create an inline delete <button> element with <li>
-          // populate the value of <li> element from the variable
-            // set the input element blank
-        
-          // when delete <button> is clicked
-            // eventListener initiates a deleteItem function
-            // deleteItem function takes the id of the current <li> item which is same as the delete <button> being pressed
-            // it removes the <li> child from the <ul>
-
-          // the input element is brought into focus()
-        
-      const inputElement = document.querySelector("#item");
-      const btnAdd = document.querySelector("#btnAddition");
-      const ulElement = document.querySelector("#listContainer");
-      let idCounter = 0;
+    // The following code works, but it unnecessarily goes through each element and also triggers the console.log for each iteration. Hence, implementing the more befitting code as learned through AI references later.
+      // function removeItem() {
+      // const listElements = document.querySelectorAll("li");
       
-      btnAdd.addEventListener("click", () => addItem());
+      // listElements.forEach((listElement) => {
+      //   if (listElement.id === event.target.id) {
+      //     removalItem = listElement;
+      //     console.log(removalItem);
+      //     ulElement.removeChild(removalItem);
+      //   } else {
+      //     console.log("No matching list item with matching id.")
+      //   }
+      // } )  
+      // }
+    
+    
+  </script>
+</body>
 
-      function addItem() {
-        const liItem = document.createElement("li");
-        const spanElement = document.createElement("span");
-        const btnDelete = document.createElement("button");
-        
-        liItem.id = idCounter++; 
-        liItem.textContent = inputElement.value;
-        
-        btnDelete.id = liItem.id;
-        btnDelete.textContent = "Delete";
-
-        spanElement.appendChild(btnDelete);
-        liItem.appendChild(spanElement);
-        ulElement.appendChild(liItem);
-      }
-
-    </script>
-  </body>
 </html>
